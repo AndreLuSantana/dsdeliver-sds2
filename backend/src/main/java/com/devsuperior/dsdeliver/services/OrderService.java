@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.devsuperior.dsdeliver.dto.OrderDto;
 import com.devsuperior.dsdeliver.dto.ProductDto;
 import com.devsuperior.dsdeliver.entities.Order;
+import com.devsuperior.dsdeliver.entities.OrderStatus;
 import com.devsuperior.dsdeliver.entities.Product;
 import com.devsuperior.dsdeliver.repositories.OrderRepository;
 import com.devsuperior.dsdeliver.repositories.ProductRepository;
@@ -41,6 +42,13 @@ public class OrderService {
 		}
 		order = repository.save(order);
 		return new OrderDto(order);
-		
+	}
+	
+	@Transactional
+	public OrderDto setDelivered(Long id) {
+		Order order = repository.getOne(id);
+		order.setStatus(OrderStatus.DELIVERED);
+		order = repository.save(order);
+		return new OrderDto(order);
 	}
 }
